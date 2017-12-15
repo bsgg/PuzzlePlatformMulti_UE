@@ -21,6 +21,9 @@ public:
 	float Speed = 20.0f;
 
 protected:
+
+	virtual void BeginPlay() override;
+
 	virtual void Tick(float deltaTime) override;
 	
 	
