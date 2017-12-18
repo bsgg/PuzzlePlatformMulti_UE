@@ -20,11 +20,18 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float Speed = 20.0f;
 
+	UPROPERTY(EditAnywhere,Meta = (MakeEditWidget = true), Category = "Settings")
+	FVector TargetLocation;
+
 protected:
 
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float deltaTime) override;
+
+
+
+	
 	
 	
 };
