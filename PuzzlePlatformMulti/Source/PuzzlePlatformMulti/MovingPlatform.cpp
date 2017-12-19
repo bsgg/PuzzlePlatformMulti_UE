@@ -33,9 +33,19 @@ void AMovingPlatform::Tick(float deltaTime)
 	if (HasAuthority())
 	{
 		FVector loc = GetActorLocation();
+
+		float journeyLenght = (GlobalTargetLocation - GlobalStartLocation).Size();
+		float journeyTravelled = (loc - GlobalStartLocation).Size();
+
+		if (journeyTravelled >= journeyLenght)
+		{
+			FVector swap = GlobalStartLocation;
+			GlobalStartLocation = GlobalTargetLocation;
+			GlobalTargetLocation = swap;
+		}
 		// Transform target from local to world position
 		FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
-		loc += (Speed * deltaTime * Direction);
+		loc += (Speed * deltaTime * Direction); 
 		
 		SetActorLocation(loc);
 	}
