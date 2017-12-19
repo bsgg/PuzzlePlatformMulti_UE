@@ -29,7 +29,9 @@ protected:
 
 	virtual void Tick(float deltaTime) override;
 
-
+private:
+	FVector GlobalTargetLocation;
+	FVector GlobalStartLocation;
 
 	
 	
