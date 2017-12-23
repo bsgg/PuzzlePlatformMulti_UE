@@ -39,7 +39,7 @@ void AMovingPlatform::Tick(float deltaTime)
 
 		if (journeyTravelled >= journeyLenght)
 		{
-			FVector swap = GlobalStartLocation;
+			FVector swap = GlobalStartLocation; 
 			GlobalStartLocation = GlobalTargetLocation;
 			GlobalTargetLocation = swap;
 		}
