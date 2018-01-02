@@ -9,6 +9,20 @@ AMovingPlatform::AMovingPlatform()
 	SetMobility(EComponentMobility::Movable); 
 }
 
+void AMovingPlatform::AddActiveTrigger()
+{
+	ActiveTriggers++;
+}
+
+void AMovingPlatform::RemoveActiveTrigger()
+{
+	if (ActiveTriggers > 0)
+	{
+		ActiveTriggers--;
+	}
+	
+}
+
 
 void AMovingPlatform::BeginPlay()
 {
@@ -29,25 +43,30 @@ void AMovingPlatform::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	// Whether this actor has network authority (server)
-	if (HasAuthority())
+	if (ActiveTriggers > 0)
 	{
-		FVector loc = GetActorLocation();
-
-		float journeyLenght = (GlobalTargetLocation - GlobalStartLocation).Size();
-		float journeyTravelled = (loc - GlobalStartLocation).Size();
-
-		if (journeyTravelled >= journeyLenght)
+		// Whether this actor has network authority (server)
+		if (HasAuthority())
 		{
-			FVector swap = GlobalStartLocation; 
-			GlobalStartLocation = GlobalTargetLocation;
-			GlobalTargetLocation = swap;
+			FVector loc = GetActorLocation();
+
+			float journeyLenght = (GlobalTargetLocation - GlobalStartLocation).Size();
+			float journeyTravelled = (loc - GlobalStartLocation).Size();
+
+			if (journeyTravelled >= journeyLenght)
+			{
+				FVector swap = GlobalStartLocation;
+				GlobalStartLocation = GlobalTargetLocation;
+				GlobalTargetLocation = swap;
+			}
+			// Transform target from local to world position
+			FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
+			loc += (Speed * deltaTime * Direction);
+
+			SetActorLocation(loc);
 		}
-		// Transform target from local to world position
-		FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
-		loc += (Speed * deltaTime * Direction); 
-		
-		SetActorLocation(loc);
+
 	}
+	
 }
 
