@@ -43,7 +43,7 @@ void AMovingPlatform::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	if (ActiveTriggers > 0)
+	if (ActiveTriggers > 0) 
 	{
 		// Whether this actor has network authority (server)
 		if (HasAuthority())
