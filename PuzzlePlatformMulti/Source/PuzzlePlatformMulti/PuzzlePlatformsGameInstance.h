@@ -18,5 +18,8 @@ public:
 	UPuzzlePlatformsGameInstance(const FObjectInitializer & ObjectInitializer);
 	
 	virtual void Init();
+
+	UFUNCTION(Exec) // Console command. Only works in GameInstance
+	void Host();
 	
 };
