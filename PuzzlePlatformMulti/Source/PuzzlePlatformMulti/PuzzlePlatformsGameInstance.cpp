@@ -24,3 +24,13 @@ void UPuzzlePlatformsGameInstance::Host()
 	engine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("Hosting"));
 }
 
+void UPuzzlePlatformsGameInstance::Join(const FString& Address)
+{
+	UEngine* engine = GetEngine();
+
+	if (!ensure(engine != nullptr)) return;
+
+	engine->AddOnScreenDebugMessage(0, 2, FColor::Green, FString::Printf(TEXT("Joining %s"), *Address));
+}
+
+

@@ -21,5 +21,8 @@ public:
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Host();
+
+	UFUNCTION(Exec) // Console command. Only works in GameInstance
+	void Join(const FString& Address);
 	
 };
