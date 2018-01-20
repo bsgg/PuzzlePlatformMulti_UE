@@ -24,5 +24,8 @@ public:
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Join(const FString& Address);
+
+private:
+	TSubclassOf<class UUserWidget> MenuClass;
 	
 };
