@@ -19,6 +19,9 @@ public:
 	
 	virtual void Init();
 
+	UFUNCTION(BlueprintCallable)
+	void LoadMenu();
+
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Host();
 
@@ -26,6 +29,7 @@ public:
 	void Join(const FString& Address);
 
 private:
+	// Blueprint class
 	TSubclassOf<class UUserWidget> MenuClass;
 	
 };

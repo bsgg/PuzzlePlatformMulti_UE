@@ -43,6 +43,18 @@ void UPuzzlePlatformsGameInstance::Host()
 	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap"); 
 }
 
+void UPuzzlePlatformsGameInstance::LoadMenu()
+{
+	if (!ensure(MenuClass != nullptr)) return;
+	// Create widget	
+	
+	UUserWidget* menu = CreateWidget<UUserWidget>(this, MenuClass);
+	if (!ensure(menu != nullptr)) return;
+
+	// Add menu to viewport
+	menu->AddToViewport();
+}
+
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 {
 	UEngine* engine = GetEngine();
