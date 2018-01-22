@@ -41,6 +41,7 @@ void UPuzzlePlatformsGameInstance::Host()
 	if (!ensure(world != nullptr)) return;
 
 	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap"); 
+
 }
 
 void UPuzzlePlatformsGameInstance::LoadMenu()
@@ -53,6 +54,16 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 
 	// Add menu to viewport
 	menu->AddToViewport();
+
+	APlayerController* playerController = GetFirstLocalPlayerController();
+	if (!ensure(playerController != nullptr)) return;
+
+	FInputModeUIOnly InputModeData;
+	InputModeData.SetWidgetToFocus(menu->TakeWidget());
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+
+	playerController->SetInputMode(InputModeData);
+	playerController->bShowMouseCursor = true;
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
@@ -69,6 +80,8 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 	if (!ensure(playerContoller != nullptr)) return;
 
 	playerContoller->ClientTravel(Address, ETravelType::TRAVEL_Absolute); 
+
+	
 }
 
 
