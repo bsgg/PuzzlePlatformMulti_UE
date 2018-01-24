@@ -63,7 +63,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
 	playerController->SetInputMode(InputModeData);
-	playerController->bShowMouseCursor = true;
+	playerController->bShowMouseCursor = true; 
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
