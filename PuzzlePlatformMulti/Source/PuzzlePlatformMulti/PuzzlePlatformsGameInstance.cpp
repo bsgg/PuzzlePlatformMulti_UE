@@ -53,7 +53,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 	if (!ensure(menu != nullptr)) return;
 
 	// Add menu to viewport
-	menu->AddToViewport();
+	menu->AddToViewport(); 
 
 	APlayerController* playerController = GetFirstLocalPlayerController();
 	if (!ensure(playerController != nullptr)) return;
