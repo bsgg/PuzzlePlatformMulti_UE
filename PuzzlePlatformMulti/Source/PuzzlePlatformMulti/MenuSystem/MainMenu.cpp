@@ -4,6 +4,12 @@
 
 #include "../Components/Button.h"
 
+
+void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterface)
+{
+	this->MenuInterface = MenuInterface;
+}
+
 bool UMainMenu::Initialize()
 {
 	bool sucess = Super::Initialize();
@@ -13,7 +19,7 @@ bool UMainMenu::Initialize()
 	// Setup
 	if (!ensure(HostButton != nullptr)) return false;
 
-	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer); 
 
 	return true;
 }
@@ -21,6 +27,11 @@ bool UMainMenu::Initialize()
 void UMainMenu::HostServer()
 {
 	UE_LOG(LogTemp, Warning, TEXT("I'm going to host a server! "));
+
+	if (MenuInterface != nullptr)
+	{
+		MenuInterface->Host();
+	}
 }
 
 
