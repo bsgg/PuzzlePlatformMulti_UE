@@ -16,7 +16,7 @@ class PUZZLEPLATFORMMULTI_API UPuzzlePlatformsGameInstance : public UGameInstanc
 	GENERATED_BODY()
 
 public:
-	UPuzzlePlatformsGameInstance(const FObjectInitializer & ObjectInitializer);
+	UPuzzlePlatformsGameInstance(const FObjectInitializer & ObjectInitializer); 
 	
 	virtual void Init();
 
@@ -33,4 +33,6 @@ private:
 	// Blueprint class
 	TSubclassOf<class UUserWidget> MenuClass;
 	
+
+	class UMainMenu* Menu;
 };
