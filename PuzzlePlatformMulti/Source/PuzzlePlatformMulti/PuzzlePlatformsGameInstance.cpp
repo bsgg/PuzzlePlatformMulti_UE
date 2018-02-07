@@ -42,8 +42,8 @@ void UPuzzlePlatformsGameInstance::Host()
 
 	if (!ensure(world != nullptr)) return;
 
-	// Thrown an error
-	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");  
+	// Thrown an error 
+	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");   
 
 }
 

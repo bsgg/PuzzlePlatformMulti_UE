@@ -3,6 +3,25 @@
 #include "MainMenu.h"
 
 #include "../Components/Button.h"
+#include "../Components/WidgetSwitcher.h"
+
+
+bool UMainMenu::Initialize()
+{
+	bool sucess = Super::Initialize();
+
+	if (!sucess) return false;
+
+	// Join button
+	if (!ensure(HostButton != nullptr)) return false;
+	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+
+
+	if (!ensure(JoinButton != nullptr)) return false;
+	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);	
+
+	return true;
+}
 
 
 void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterface)
@@ -46,19 +65,7 @@ void UMainMenu::Teardown()
 	playerController->bShowMouseCursor = false;
 }
 
-bool UMainMenu::Initialize()
-{
-	bool sucess = Super::Initialize();
 
-	if (!sucess) return false;
-
-	// Setup
-	if (!ensure(HostButton != nullptr)) return false;
-
-	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer); 
-
-	return true;
-}
 
 void UMainMenu::HostServer()
 {
@@ -68,6 +75,17 @@ void UMainMenu::HostServer()
 	{
 		MenuInterface->Host();
 	}
+}
+
+
+void UMainMenu::OpenJoinMenu()
+{
+	UE_LOG(LogTemp, Warning, TEXT("I'm going to Open Join Menu! "));
+
+	if (!ensure(MenuSwitcher != nullptr)) return;
+	if (!ensure(JoinMenu != nullptr)) return;
+
+	MenuSwitcher->SetActiveWidget(JoinMenu);
 }
 
 
