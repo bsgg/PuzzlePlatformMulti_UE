@@ -31,8 +31,7 @@ public:
 
 private:
 	// Blueprint class
-	TSubclassOf<class UUserWidget> MenuClass;
-	
+	TSubclassOf<class UUserWidget> MenuClass;	
 
 	class UMainMenu* Menu;
 };
