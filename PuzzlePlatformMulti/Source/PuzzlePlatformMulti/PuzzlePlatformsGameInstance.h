@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
 
+	UFUNCTION(BlueprintCallable)
+	void LoadInGameMenu();
+
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Host();
 
@@ -32,6 +35,7 @@ public:
 private:
 	// Blueprint class
 	TSubclassOf<class UUserWidget> MenuClass;	
+	TSubclassOf<class UUserWidget> InGameMenuClass;
 
 	class UMainMenu* Menu;
 };

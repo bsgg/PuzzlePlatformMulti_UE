@@ -3,14 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "MenuWidget.h"
+
 #include "InGameMenu.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PUZZLEPLATFORMMULTI_API UInGameMenu : public UUserWidget
+class PUZZLEPLATFORMMULTI_API UInGameMenu : public UMenuWidget
 {
 	GENERATED_BODY()
 	
