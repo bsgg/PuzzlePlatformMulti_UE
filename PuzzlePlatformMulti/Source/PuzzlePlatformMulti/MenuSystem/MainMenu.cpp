@@ -32,13 +32,6 @@ bool UMainMenu::Initialize()
 }
 
 
-
-
-
-
-
-
-
 void UMainMenu::HostServer()
 {
 	UE_LOG(LogTemp, Warning, TEXT("I'm going to host a server! "));

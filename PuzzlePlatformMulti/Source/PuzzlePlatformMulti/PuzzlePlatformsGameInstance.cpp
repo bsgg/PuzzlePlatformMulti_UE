@@ -82,7 +82,7 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 {
 	if (Menu != nullptr)
 	{
-		Menu->Teardown();
+		Menu->Teardown(); 
 	}
 
 	UEngine* engine = GetEngine();
@@ -97,8 +97,16 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 	if (!ensure(playerContoller != nullptr)) return;
 
 	playerContoller->ClientTravel(Address, ETravelType::TRAVEL_Absolute); 
-
 	
+}
+
+void UPuzzlePlatformsGameInstance::LoadMainMenu()
+{
+	APlayerController* playerContoller = GetFirstLocalPlayerController();
+
+	if (!ensure(playerContoller != nullptr)) return;
+
+	playerContoller->ClientTravel("/Game/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
 }
 
 

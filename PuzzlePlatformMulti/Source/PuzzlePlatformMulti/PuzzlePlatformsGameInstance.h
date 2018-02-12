@@ -27,10 +27,13 @@ public:
 	void LoadInGameMenu();
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
-	void Host();
+	void Host() override;
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
-	void Join(const FString& Address);
+	void Join(const FString& Address) override;
+	
+	virtual void LoadMainMenu() override;
+	
 
 private:
 	// Blueprint class
@@ -38,4 +41,6 @@ private:
 	TSubclassOf<class UUserWidget> InGameMenuClass;
 
 	class UMainMenu* Menu;
+
+
 };
