@@ -5,9 +5,9 @@
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+#include "OnlineSubsystem.h"
 
 #include "MenuSystem/MainMenu.h"
-
 #include "PlatformTrigger.h"
 
 
@@ -27,8 +27,19 @@ UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitiali
 
 void UPuzzlePlatformsGameInstance::Init()
 {
+	IOnlineSubsystem* subSystem = IOnlineSubsystem::Get();
 
-	UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance Init Found Class %s"), *MenuClass->GetName());
+	if (subSystem != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance We found the %s"), *subSystem->GetSubsystemName().ToString());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance We found no subsystem"));
+	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance Init Found Class %s"), *MenuClass->GetName());
+
 }
 
 void UPuzzlePlatformsGameInstance::Host()
@@ -53,7 +64,7 @@ void UPuzzlePlatformsGameInstance::Host()
 
 }
 
-void UPuzzlePlatformsGameInstance::LoadMenu()
+void UPuzzlePlatformsGameInstance::LoadMenuWidget()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 	// Create widget	

@@ -66,7 +66,7 @@ void UMainMenu::QuitPressed()
 	APlayerController* playerController = world->GetFirstPlayerController();
 	if (!ensure(playerController != nullptr)) return;
 
-	playerController->ConsoleCommand("quit");
+	playerController->ConsoleCommand("quit"); 
 }
 
 
