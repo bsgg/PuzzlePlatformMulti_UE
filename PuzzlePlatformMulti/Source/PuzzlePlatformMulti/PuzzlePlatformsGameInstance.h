@@ -32,7 +32,9 @@ public:
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Join(const FString& Address) override;
 	
-	virtual void LoadMainMenu() override;
+	virtual void LoadMainMenu() override; 
+
+
 	
 
 private:
@@ -41,6 +43,8 @@ private:
 	TSubclassOf<class UUserWidget> InGameMenuClass;
 
 	class UMainMenu* Menu;
+
+	void OnCreateSessionComplete(FName SessionName, bool Success);
 
 
 };

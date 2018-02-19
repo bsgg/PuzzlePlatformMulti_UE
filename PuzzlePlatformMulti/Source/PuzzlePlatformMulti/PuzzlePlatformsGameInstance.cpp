@@ -6,6 +6,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "OnlineSubsystem.h"
+#include "OnlineSessionSettings.h"
+#include "OnlineSessionInterface.h"
 
 #include "MenuSystem/MainMenu.h"
 #include "PlatformTrigger.h"
@@ -36,7 +38,10 @@ void UPuzzlePlatformsGameInstance::Init()
 
 		if (sessionInterface.IsValid())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init sessionInterface found"));
+			FOnlineSessionSettings sessionSettings;
+			sessionInterface->CreateSession(0,TEXT("My Session Game"), sessionSettings);
+			
+			sessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
 		}
 		
 	}
@@ -47,6 +52,11 @@ void UPuzzlePlatformsGameInstance::Init()
 
 	//UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance Init Found Class %s"), *MenuClass->GetName());
 
+}
+
+void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
+{
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete %s"), *SessionName.ToString());
 }
 
 void UPuzzlePlatformsGameInstance::Host()

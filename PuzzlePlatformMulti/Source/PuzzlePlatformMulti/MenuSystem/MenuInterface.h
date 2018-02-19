@@ -26,5 +26,8 @@ public:
 	virtual void Join(const FString& Address) = 0; // Pure virtual
 
 	virtual void LoadMainMenu() = 0; // Pure virtual
+
+
+	
 	
 };
