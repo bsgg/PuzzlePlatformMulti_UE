@@ -5,7 +5,7 @@
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
-#include "OnlineSubsystem.h"
+
 #include "OnlineSessionSettings.h"
 #include "OnlineSessionInterface.h"
 
@@ -13,11 +13,13 @@
 #include "PlatformTrigger.h"
 
 
+const static FName SESSION_NAME = TEXT("My Session Game");
+
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer & ObjectInitializer)
 {
 
 	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
-
+	 
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	MenuClass = MenuBPClass.Class;
 
@@ -34,14 +36,13 @@ void UPuzzlePlatformsGameInstance::Init()
 	if (subSystem != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init subSystem %s found "), *subSystem->GetSubsystemName().ToString());
-		IOnlineSessionPtr sessionInterface = subSystem->GetSessionInterface();
+		SessionInterface = subSystem->GetSessionInterface();
 
-		if (sessionInterface.IsValid())
-		{
-			FOnlineSessionSettings sessionSettings;
-			sessionInterface->CreateSession(0,TEXT("My Session Game"), sessionSettings);
-			
-			sessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+		if (SessionInterface.IsValid())
+		{	
+			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init SessionInterface.IsValid "));
+			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
 		}
 		
 	}
@@ -54,15 +55,43 @@ void UPuzzlePlatformsGameInstance::Init()
 
 }
 
-void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
+void UPuzzlePlatformsGameInstance::Host() 
 {
-	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete %s"), *SessionName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::Host"));
+
+	if (SessionInterface.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::Host Is valid"));
+
+		auto existingSession = SessionInterface->GetNamedSession(SESSION_NAME);
+		if (existingSession != nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::Host Session already exists"));
+			SessionInterface->DestroySession(SESSION_NAME);
+		}
+		else
+		{
+			CreateSession();
+		}
+	}
 }
 
-void UPuzzlePlatformsGameInstance::Host()
+void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
 {
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete "));
+
+	if (!Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Could not create session"));
+
+		return;
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete %s"), *SessionName.ToString());
+
 	if (Menu != nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Menu not null"));
 		Menu->Teardown();
 	}
 
@@ -72,13 +101,40 @@ void UPuzzlePlatformsGameInstance::Host()
 
 	engine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("Host a new game "));
 
+	
+	
 	UWorld* world = GetWorld();
 
 	if (!ensure(world != nullptr)) return;
 
-	// Thrown an error 
-	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");   
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));
 
+	// Thrown an error 
+	//world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");    
+
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));
+
+}
+
+void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, bool Success)
+{
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnDestroySessionComplete "));
+
+	if (Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnDestroySessionComplete success Creating session "));
+		CreateSession();
+	}
+}
+
+void UPuzzlePlatformsGameInstance::CreateSession()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession"));
+	if (SessionInterface.IsValid())
+	{
+		FOnlineSessionSettings sessionSettings;
+		SessionInterface->CreateSession(0, SESSION_NAME, sessionSettings);
+	}
 }
 
 void UPuzzlePlatformsGameInstance::LoadMenuWidget()
