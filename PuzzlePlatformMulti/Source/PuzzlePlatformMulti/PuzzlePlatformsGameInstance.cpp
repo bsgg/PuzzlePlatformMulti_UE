@@ -43,8 +43,16 @@ void UPuzzlePlatformsGameInstance::Init()
 			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init SessionInterface.IsValid "));
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
-		}
-		
+
+			SessionSearch = MakeShareable(new FOnlineSessionSearch());
+			if (SessionSearch.IsValid())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init Starting to find sessions "));
+
+				SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnFindSessionComplete);
+				SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
+			}			
+		}		
 	}
 	else
 	{
@@ -100,7 +108,6 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 	if (!ensure(engine != nullptr)) return;
 
 	engine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("Host a new game "));
-
 	
 	
 	UWorld* world = GetWorld();
@@ -110,9 +117,9 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));
 
 	// Thrown an error 
-	//world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");    
+	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");    
 
-	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end")); 
 
 }
 
@@ -125,6 +132,20 @@ void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, b
 		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnDestroySessionComplete success Creating session "));
 		CreateSession();
 	}
+}
+
+void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
+{
+	if (Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete SUCCESS"));
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete FAIL"));
+	}
+	
 }
 
 void UPuzzlePlatformsGameInstance::CreateSession()
