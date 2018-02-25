@@ -49,6 +49,7 @@ void UPuzzlePlatformsGameInstance::Init()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance.Init Starting to find sessions "));
 
+				//SessionSearch->bIsLanQuery = true;
 				SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnFindSessionComplete);
 				SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 			}			
@@ -117,9 +118,11 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));
 
 	// Thrown an error 
-	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");    
 
-	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end")); 
+	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");
+		
+	
+	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));  
 
 }
 
@@ -136,10 +139,14 @@ void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, b
 
 void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
 {
-	if (Success)
+	if (Success && SessionSearch.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete SUCCESS"));
+		for (const FOnlineSessionSearchResult& searchResult : SessionSearch->SearchResults)
+		{
 
+			UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Fond session name: %s"), *searchResult.GetSessionIdStr());
+		}
 	}
 	else
 	{
@@ -154,6 +161,10 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 	if (SessionInterface.IsValid())
 	{
 		FOnlineSessionSettings sessionSettings;
+		sessionSettings.bIsLANMatch = true;
+		sessionSettings.NumPublicConnections = 2;
+		sessionSettings.bShouldAdvertise = true;
+
 		SessionInterface->CreateSession(0, SESSION_NAME, sessionSettings);
 	}
 }
