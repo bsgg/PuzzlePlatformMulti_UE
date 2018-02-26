@@ -43,8 +43,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UWidget* JoinMenu;
 	
-	UPROPERTY(meta = (BindWidget))
-	class UEditableTextBox* IPAddressFieldTxt;
+	//UPROPERTY(meta = (BindWidget))
+	//class UEditableTextBox* IPAddressFieldTxt;
 
 	UFUNCTION()
 	void HostServer();

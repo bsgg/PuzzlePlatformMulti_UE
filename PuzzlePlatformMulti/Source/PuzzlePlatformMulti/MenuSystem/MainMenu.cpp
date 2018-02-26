@@ -52,9 +52,9 @@ void UMainMenu::JoinServer()
 
 	if (MenuInterface != nullptr)
 	{
-		if (!ensure(IPAddressFieldTxt != nullptr)) return;
+		/*if (!ensure(IPAddressFieldTxt != nullptr)) return;
 		const FString Address = IPAddressFieldTxt->GetText().ToString();
-		MenuInterface->Join(Address);
+		MenuInterface->Join(Address);*/
 	}
 }
 
