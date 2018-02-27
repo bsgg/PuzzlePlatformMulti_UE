@@ -6,6 +6,7 @@
 #include "../Components/Button.h"
 #include "../Components/WidgetSwitcher.h"
 #include "../Components/EditableTextBox.h"
+#include "../Components/TextBlock.h"
 
 #include "ServerRow.h"
 
@@ -28,7 +29,6 @@ bool UMainMenu::Initialize()
 	if (!ensure(HostButton != nullptr)) return false;
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
 
-
 	if (!ensure(JoinButton != nullptr)) return false;
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);	
 
@@ -37,7 +37,6 @@ bool UMainMenu::Initialize()
 
 	if (!ensure(CancelJoinMenuButton != nullptr)) return false;
 	CancelJoinMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
-
 
 	if (!ensure(ConfirmJoinMenuButton != nullptr)) return false;
 	ConfirmJoinMenuButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
@@ -56,6 +55,22 @@ void UMainMenu::HostServer()
 	}
 }
 
+void UMainMenu::SetServerList(TArray<FString> ServerNames)
+{
+	UWorld* world = this->GetWorld();
+	if (!ensure(world != nullptr)) return;
+
+	for (const FString& serverName : ServerNames)
+	{
+		UServerRow* row = CreateWidget<UServerRow>(world, ServerRowClass);
+		if (!ensure(row != nullptr)) return;
+
+		row->ServerName->SetText(FText::FromString(serverName));
+
+		ServerList->AddChild(row);
+	}
+}
+
 
 void UMainMenu::JoinServer()
 {
@@ -64,15 +79,9 @@ void UMainMenu::JoinServer()
 	if (MenuInterface != nullptr)
 	{
 		/*if (!ensure(IPAddressFieldTxt != nullptr)) return;
-		const FString Address = IPAddressFieldTxt->GetText().ToString();
-		MenuInterface->Join(Address);*/
-		UWorld* world = this->GetWorld();
-		if (!ensure(world != nullptr)) return;
+		const FString Address = IPAddressFieldTxt->GetText().ToString();*/
 
-		UServerRow* row = CreateWidget<UServerRow>(world, ServerRowClass);
-		if (!ensure(row != nullptr)) return;
-
-		ServerList->AddChild(row);
+		MenuInterface->Join("");	
 
 	}
 }

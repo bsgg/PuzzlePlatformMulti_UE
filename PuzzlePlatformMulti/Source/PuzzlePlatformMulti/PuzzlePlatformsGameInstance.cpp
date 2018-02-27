@@ -198,10 +198,11 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 {
 	if (Menu != nullptr)
 	{
-		Menu->Teardown(); 
+		Menu->SetServerList({"Test1", "Test2"});
+		//Menu->Teardown(); 
 	}
 
-	UEngine* engine = GetEngine();
+	/*UEngine* engine = GetEngine();
 
 	if (!ensure(engine != nullptr)) return;
 
@@ -212,7 +213,7 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 
 	if (!ensure(playerContoller != nullptr)) return;
 
-	playerContoller->ClientTravel(Address, ETravelType::TRAVEL_Absolute); 
+	playerContoller->ClientTravel(Address, ETravelType::TRAVEL_Absolute); */
 	
 }
 

@@ -18,6 +18,8 @@ class PUZZLEPLATFORMMULTI_API UMainMenu : public UMenuWidget
 public:
 	UMainMenu(const FObjectInitializer & ObjectInitializer);
 
+	void SetServerList(TArray<FString> ServerNames);
+
 protected:
 	virtual bool Initialize();
 
@@ -51,9 +53,6 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	class UPanelWidget* ServerList;
-
-	//UPROPERTY(meta = (BindWidget))
-	//class UEditableTextBox* IPAddressFieldTxt;
 
 	UFUNCTION()
 	void HostServer();
