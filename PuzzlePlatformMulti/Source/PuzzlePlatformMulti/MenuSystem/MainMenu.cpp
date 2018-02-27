@@ -60,6 +60,8 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
 	UWorld* world = this->GetWorld();
 	if (!ensure(world != nullptr)) return;
 
+	ServerList->ClearChildren();
+
 	for (const FString& serverName : ServerNames)
 	{
 		UServerRow* row = CreateWidget<UServerRow>(world, ServerRowClass);
@@ -106,6 +108,11 @@ void UMainMenu::OpenJoinMenu()
 	if (!ensure(JoinMenu != nullptr)) return;
 
 	MenuSwitcher->SetActiveWidget(JoinMenu); 
+
+	if (MenuInterface != nullptr)
+	{
+		MenuInterface->RefreshingServerList();
+	}
 }
 
 

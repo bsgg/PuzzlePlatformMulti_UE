@@ -35,6 +35,8 @@ public:
 	
 	virtual void LoadMainMenu() override; 
 
+	virtual void RefreshingServerList() override;
+
 private:
 	// Blueprint class
 	TSubclassOf<class UUserWidget> MenuClass;	

@@ -27,6 +27,8 @@ public:
 
 	virtual void LoadMainMenu() = 0; // Pure virtual
 
+	virtual void RefreshingServerList() = 0;
+
 
 	
 	
