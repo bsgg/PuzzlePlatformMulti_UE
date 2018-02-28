@@ -62,20 +62,39 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
 
 	ServerList->ClearChildren();
 
+	uint32 i = 0;
 	for (const FString& serverName : ServerNames)
 	{
 		UServerRow* row = CreateWidget<UServerRow>(world, ServerRowClass);
 		if (!ensure(row != nullptr)) return;
 
+		// Setup row
 		row->ServerName->SetText(FText::FromString(serverName));
+		row->Setup(this, i);
+		++i;
 
 		ServerList->AddChild(row);
 	}
 }
 
+void UMainMenu::SelectIndex(uint32 Index)
+{	
+	SelectedIndex = Index;
+	UE_LOG(LogTemp, Warning, TEXT("UMainMenu::SelectIndex %d"), SelectedIndex.GetValue());
+}
+
 
 void UMainMenu::JoinServer()
 {
+	if (SelectedIndex.IsSet())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Selected index %d"), SelectedIndex.GetValue());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Selected index not set"));
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("I'm going to join to a server! "));
 
 	if (MenuInterface != nullptr)
@@ -111,7 +130,7 @@ void UMainMenu::OpenJoinMenu()
 
 	if (MenuInterface != nullptr)
 	{
-		MenuInterface->RefreshingServerList();
+		MenuInterface->RefreshingServerList(); 
 	}
 }
 
