@@ -80,31 +80,30 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
 void UMainMenu::SelectIndex(uint32 Index)
 {	
 	SelectedIndex = Index;
-	UE_LOG(LogTemp, Warning, TEXT("UMainMenu::SelectIndex %d"), SelectedIndex.GetValue());
+	UE_LOG(LogTemp, Warning, TEXT("UMainMenu::SelectIndex %d"), SelectedIndex.GetValue()); 
 }
 
 
 void UMainMenu::JoinServer()
 {
-	if (SelectedIndex.IsSet())
+	if (SelectedIndex.IsSet() && MenuInterface != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Selected index %d"), SelectedIndex.GetValue());
+		UE_LOG(LogTemp, Warning, TEXT("Selected index %d"), );
+		MenuInterface->Join(SelectedIndex.GetValue());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Selected index not set"));
+		UE_LOG(LogTemp, Warning, TEXT("Selected index not set or MenuInterface null"));
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("I'm going to join to a server! "));
-
-	if (MenuInterface != nullptr)
+	/*if (MenuInterface != nullptr)
 	{
 		/*if (!ensure(IPAddressFieldTxt != nullptr)) return;
 		const FString Address = IPAddressFieldTxt->GetText().ToString();*/
 
-		MenuInterface->Join("");	
+		
 
-	}
+	/*}*/
 }
 
 void UMainMenu::QuitPressed()
