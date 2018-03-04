@@ -134,8 +134,13 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
 	
 	if (Success && SessionSearch.IsValid() && Menu != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Success"));
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Success")); 
 		TArray<FString> ServerNames;
+
+		ServerNames.Add("Test server 1 ");
+		ServerNames.Add("Test server 2 ");
+		ServerNames.Add("Test server 3 ");
+
 		for (const FOnlineSessionSearchResult& searchResult : SessionSearch->SearchResults)
 		{
 

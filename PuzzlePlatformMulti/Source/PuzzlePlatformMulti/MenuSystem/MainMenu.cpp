@@ -81,6 +81,23 @@ void UMainMenu::SelectIndex(uint32 Index)
 {	
 	SelectedIndex = Index;
 	UE_LOG(LogTemp, Warning, TEXT("UMainMenu::SelectIndex %d"), SelectedIndex.GetValue()); 
+
+
+	UpdateChildren();
+
+}
+
+void UMainMenu::UpdateChildren()
+{
+	for (int32 i = 0; i < ServerList->GetChildrenCount(); ++i)
+	{
+		UServerRow* row = Cast<UServerRow>(ServerList->GetChildAt(i));
+
+		if (row != nullptr)
+		{
+			row->Selected = (SelectedIndex.IsSet() && (i == SelectedIndex.GetValue()) ); 			
+		}
+	}
 }
 
 
@@ -96,14 +113,6 @@ void UMainMenu::JoinServer()
 		UE_LOG(LogTemp, Warning, TEXT("Selected index not set or MenuInterface null"));
 	}
 
-	/*if (MenuInterface != nullptr)
-	{
-		/*if (!ensure(IPAddressFieldTxt != nullptr)) return;
-		const FString Address = IPAddressFieldTxt->GetText().ToString();*/
-
-		
-
-	/*}*/
 }
 
 void UMainMenu::QuitPressed()
