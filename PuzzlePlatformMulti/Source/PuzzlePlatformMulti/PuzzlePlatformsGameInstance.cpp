@@ -135,20 +135,27 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
 	if (Success && SessionSearch.IsValid() && Menu != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Success")); 
-		TArray<FString> ServerNames;
+		
 
-		ServerNames.Add("Test server 1 ");
+		/*ServerNames.Add("Test server 1 ");
 		ServerNames.Add("Test server 2 ");
-		ServerNames.Add("Test server 3 ");
-
+		ServerNames.Add("Test server 3 ");*/
+		TArray<FServerData> ServerData;
 		for (const FOnlineSessionSearchResult& searchResult : SessionSearch->SearchResults)
 		{
 
 			UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Fond session name: %s"), *searchResult.GetSessionIdStr());
-			ServerNames.Add(searchResult.GetSessionIdStr());
+			FServerData Data;
+			Data.Name = searchResult.GetSessionIdStr();
+			Data.CurrentPlayers = searchResult.Session.NumOpenPublicConnections;
+			Data.MaxPlayers = searchResult.Session.SessionSettings.NumPublicConnections;
+			Data.HostUsername = searchResult.Session.OwningUserName;
+
+
+			ServerData.Add(Data);
 		}
 
-		Menu->SetServerList(ServerNames);
+		Menu->SetServerList(ServerData);
 	}
 	else
 	{
@@ -162,8 +169,22 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 	UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession"));
 	if (SessionInterface.IsValid())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession SessionInterface.IsValid()"));
+
 		FOnlineSessionSettings sessionSettings;
-		sessionSettings.bIsLANMatch = false;
+
+		// Check what online subsystem we are using NULL or Steam
+		if (IOnlineSubsystem::Get()->GetSubsystemName() == "NULL")
+		{
+			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession IOnlineSubsystem NULL"));
+			sessionSettings.bIsLANMatch = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession IOnlineSubsystem STEAM"));
+			sessionSettings.bIsLANMatch = false;
+		}
+		
 		sessionSettings.NumPublicConnections = 2;
 		sessionSettings.bShouldAdvertise = true;
 		sessionSettings.bUsesPresence = true;
