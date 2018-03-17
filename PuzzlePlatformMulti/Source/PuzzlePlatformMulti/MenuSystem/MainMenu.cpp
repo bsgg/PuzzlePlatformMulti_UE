@@ -72,7 +72,7 @@ void UMainMenu::SetServerList(TArray<FServerData> ServerData)
 		row->ServerName->SetText(FText::FromString(serverData.Name));
 		row->HostUser->SetText(FText::FromString(serverData.HostUsername));
 
-		FString fractionText = FString::Printf(TEXT("%d/%d"), serverData.CurrentPlayers, serverData.MaxPlayers);
+		FString fractionText = FString::Printf(TEXT("%d/%d"), serverData.CurrentPlayers, serverData.MaxPlayers); 
 		row->ConnectionFraction->SetText(FText::FromString(fractionText));
 
 		row->Setup(this, i);

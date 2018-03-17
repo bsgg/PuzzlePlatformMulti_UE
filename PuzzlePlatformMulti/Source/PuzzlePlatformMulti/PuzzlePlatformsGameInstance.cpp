@@ -147,8 +147,8 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
 			UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnFindSessionComplete Fond session name: %s"), *searchResult.GetSessionIdStr());
 			FServerData Data;
 			Data.Name = searchResult.GetSessionIdStr();
-			Data.CurrentPlayers = searchResult.Session.NumOpenPublicConnections;
 			Data.MaxPlayers = searchResult.Session.SessionSettings.NumPublicConnections;
+			Data.CurrentPlayers = Data.MaxPlayers -  searchResult.Session.NumOpenPublicConnections;			
 			Data.HostUsername = searchResult.Session.OwningUserName;
 
 
