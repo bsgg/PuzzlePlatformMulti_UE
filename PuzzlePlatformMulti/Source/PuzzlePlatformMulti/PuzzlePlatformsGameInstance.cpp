@@ -160,7 +160,7 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool Success)
 			}
 			else
 			{
-				Data.Name = "Could not find name.";
+				Data.Name = "Could not find name."; 
 			}
 
 			
@@ -201,7 +201,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 		sessionSettings.NumPublicConnections = 2;
 		sessionSettings.bShouldAdvertise = true;
 		sessionSettings.bUsesPresence = true;
-		sessionSettings.Set(SERVER_NAME_SETTINGS_KEY, FString("Hello"), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+		sessionSettings.Set(SERVER_NAME_SETTINGS_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
 		SessionInterface->CreateSession(0, SESSION_NAME, sessionSettings);
 	}
