@@ -30,7 +30,7 @@ public:
 	void LoadInGameMenu();
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
-	void Host() override;
+	void Host(FString ServerName) override;
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Join(uint32 Index) override;
@@ -54,4 +54,6 @@ private:
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type result);
 
 	void CreateSession();
+
+	FString DesiredServerName;
 };
