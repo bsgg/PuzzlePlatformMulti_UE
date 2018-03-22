@@ -113,7 +113,7 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 
 	// Thrown an error 
 
-	world->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap");
+	world->ServerTravel("/Game/PuzzlePlatforms/Maps/Lobby");
 		
 	
 	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));  
@@ -189,7 +189,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 		// Check what online subsystem we are using NULL or Steam
 		if (IOnlineSubsystem::Get()->GetSubsystemName() == "NULL")
 		{
-			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession IOnlineSubsystem NULL"));
+			UE_LOG(LogTemp, Warning, TEXT("UPuzzlePlatformsGameInstance::CreateSession IOnlineSubsystem NULL")); 
 			sessionSettings.bIsLANMatch = true;
 		}
 		else
