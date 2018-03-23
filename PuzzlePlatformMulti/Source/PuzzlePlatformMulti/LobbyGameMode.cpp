@@ -4,4 +4,17 @@
 
 
 
+void ALobbyGameMode::PostLogin(APlayerController* newPlayer)
+{
+	++NumberOfPlayers;
 
+	if (NumberOfPlayers >= 3)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reached 3 Players!"));
+	}
+}
+
+void ALobbyGameMode::Logout(AController* Existing)
+{
+	--NumberOfPlayers;
+}

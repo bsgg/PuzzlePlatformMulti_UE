@@ -113,7 +113,7 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 
 	// Thrown an error 
 
-	world->ServerTravel("/Game/PuzzlePlatforms/Maps/Lobby");
+	world->ServerTravel("/Game/PuzzlePlatforms/Maps/Lobby?listen");
 		
 	
 	UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnCreateSessionComplete Reach end"));  
@@ -126,7 +126,7 @@ void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, b
 
 	if (Success)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnDestroySessionComplete success Creating session "));
+		UE_LOG(LogTemp, Warning, TEXT("PuzzlePlatformsGameInstance::OnDestroySessionComplete success Creating session ")); 
 		CreateSession();
 	}
 }

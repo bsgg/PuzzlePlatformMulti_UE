@@ -13,8 +13,14 @@ UCLASS()
 class PUZZLEPLATFORMMULTI_API ALobbyGameMode : public APuzzlePlatformMultiGameMode
 {
 	GENERATED_BODY()
+
+public:
+
+	 void PostLogin(APlayerController* newPlayer) override;
+
+	 void Logout(AController* Existing) override;
 	
-	
-	
-	
+private:
+
+	uint32 NumberOfPlayers = 0;
 };
