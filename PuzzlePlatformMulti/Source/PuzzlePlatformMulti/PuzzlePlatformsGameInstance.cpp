@@ -19,7 +19,7 @@ const static FName SERVER_NAME_SETTINGS_KEY = TEXT("ServerName");
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer & ObjectInitializer)
 {
 
-	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu")); 
 	 
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	MenuClass = MenuBPClass.Class;
@@ -198,7 +198,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 			sessionSettings.bIsLANMatch = false;
 		}
 		
-		sessionSettings.NumPublicConnections = 2;
+		sessionSettings.NumPublicConnections = 5;
 		sessionSettings.bShouldAdvertise = true;
 		sessionSettings.bUsesPresence = true;
 		sessionSettings.Set(SERVER_NAME_SETTINGS_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
@@ -296,6 +296,15 @@ void UPuzzlePlatformsGameInstance::OnJoinSessionComplete(FName SessionName, EOnJ
 	playerContoller->ClientTravel(address, ETravelType::TRAVEL_Absolute);
 
 }
+
+void UPuzzlePlatformsGameInstance::StartSession()
+{
+	if (SessionInterface.IsValid())
+	{
+		SessionInterface->StartSession(SESSION_NAME);
+	}
+}
+
 
 void UPuzzlePlatformsGameInstance::LoadMainMenu()
 {

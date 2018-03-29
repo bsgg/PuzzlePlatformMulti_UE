@@ -34,6 +34,8 @@ public:
 
 	UFUNCTION(Exec) // Console command. Only works in GameInstance
 	void Join(uint32 Index) override;
+
+	void StartSession();
 	
 	virtual void LoadMainMenu() override; 
 
